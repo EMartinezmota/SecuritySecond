@@ -1,0 +1,186 @@
+<!-- python3 -m http.server 8000 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Second</title>
+
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --dark-navy: #071426;
+      --light-grey: #f3f6f9;
+      --card-grey: #eef3f7;
+      --white: #ffffff;
+      --muted: #5d6b7a;
+      --shadow: rgba(7, 20, 38, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light-grey);
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--dark-navy);
+      color: var(--white);
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 0 auto;
+      color: #dce6f0;
+      font-size: 1.1rem;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 48px auto;
+    }
+
+    .section-title {
+      margin-bottom: 24px;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    .writeups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .writeup-card {
+      display: block;
+      text-decoration: none;
+      color: var(--navy);
+      background: var(--white);
+      border: 1px solid #dce5ee;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .writeup-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(7, 20, 38, 0.22);
+      border-color: var(--navy);
+    }
+
+    .writeup-card img {
+      width: 100%;
+      height: 165px;
+      object-fit: cover;
+      background: var(--card-grey);
+      display: block;
+    }
+
+    .writeup-content {
+      padding: 20px;
+    }
+
+    .writeup-content h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .writeup-content span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Security Second</h1>
+    <p>A collection of cybersecurity write-ups, labs, notes, and technical walkthroughs.</p>
+  </header>
+
+  <main>
+    <section class="section-title">
+      <h2>Cybersecurity Write-Ups</h2>
+      <p>Select a write-up below to open the full page.</p>
+    </section>
+
+    <section id="writeups" class="writeups-grid"></section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Security Second. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Add your write-up pages here.
+    // Each item needs a title, image, and href link.
+    const writeups = [
+      {
+        title: "SQL Injection Basics",
+        image: "images/sql-injection.jpg",
+        href: "writeups/sql-injection.html"
+      },
+      {
+        title: "Network Monitoring with Snort",
+        image: "images/snort-monitoring.jpg",
+        href: "writeups/snort-monitoring.html"
+      },
+      {
+        title: "DNSSEC Walkthrough",
+        image: "images/dnssec.jpg",
+        href: "writeups/dnssec.html"
+      }
+    ];
+
+    const writeupsContainer = document.getElementById("writeups");
+
+    writeups.forEach((writeup) => {
+      const card = document.createElement("a");
+      card.className = "writeup-card";
+      card.href = writeup.href;
+
+      card.innerHTML = `
+        <img src="${writeup.image}" alt="${writeup.title}">
+        <div class="writeup-content">
+          <h3>${writeup.title}</h3>
+          <span>Open write-up</span>
+        </div>
+      `;
+
+      writeupsContainer.appendChild(card);
+    });
+  </script>
+</body>
+</html>
