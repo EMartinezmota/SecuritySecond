@@ -1,0 +1,235 @@
+<!-- python3 -m http.server 8000 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preventing SQL Injection</title>
+
+  <style>
+    :root {
+      --navy: #071426;
+      --blue: #163b66;
+      --light: #f3f6f9;
+      --white: #ffffff;
+      --muted: #6b7a8c;
+      --border: #dce5ee;
+      --shadow: rgba(7, 20, 38, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--navy);
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px 24px;
+    }
+
+    .nav {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .nav a.back {
+      font-weight: 500;
+      color: #c9d6e4;
+    }
+
+    main {
+      width: min(900px, 92%);
+      margin: 40px auto;
+    }
+
+    .writeup-header {
+      margin-bottom: 24px;
+    }
+
+    .writeup-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 12px;
+        margin: 20px 0 24px;
+        border: 1px solid var(--border);
+        padding: 0;
+        background: none;
+    }
+
+    .hero-img.logo-banner {
+      object-fit: contain;
+      background: var(--white);
+      padding: 16px;
+    }
+
+    .content {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+
+    .content h2 {
+      margin-top: 28px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .content p {
+      margin-bottom: 14px;
+      color: #1d2a38;
+    }
+
+    .content ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    .content li {
+      margin-bottom: 6px;
+    }
+
+    .code {
+      background: #0b1f3a;
+      color: #e6edf5;
+      padding: 14px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+      <a href="../index.html">Security Second</a>
+      <a href="../index.html" class="back">← Back</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="writeup-header">
+      <h1>Preventing SQL Injection</h1>
+      <div class="meta">
+        Beginner • Web Security
+      </div>
+    </div>
+
+<img src="../resources/sqlInjection.png" alt="Write-up banner" class="hero-img" />
+    <div class="content">
+
+      <h2>Overview</h2>
+      <p>
+        SQL Injection is a common web vulnerability where an attacker manipulates user input to execute unintended database queries. 
+        This happens when applications treat user input as part of a query instead of as data. Preventing this requires a layered 
+        security approach that ensures input is never executed as code.
+      </p>
+
+      <h2>Why It Matters</h2>
+      <ul>
+        <li>Attackers can access, modify, or delete sensitive data</li>
+        <li>Common in real-world applications, especially poorly secured forms or APIs</li>
+        <li>Understanding it early helps prevent major security issues in future projects</li>
+      </ul>
+
+      <h2>How It Works</h2>
+      <p>
+        SQL injection occurs when user input is directly inserted into a database query. Instead of being treated as plain data, 
+        the input becomes part of the SQL command. Attackers exploit this by injecting SQL syntax to change how the query behaves.
+      </p>
+
+      <div class="code">
+User Input → Application → SQL Query → Database
+
+Unsafe Flow:
+"SELECT * FROM users WHERE name = '" + input + "'"
+
+If input = ' OR 1=1 --
+Query becomes:
+SELECT * FROM users WHERE name = '' OR 1=1 --
+      </div>
+
+      <h2>Basic Example</h2>
+      <p>
+        Imagine a login form where a user enters a username. If the application directly inserts that input into a query, 
+        an attacker could bypass authentication by injecting SQL logic.
+      </p>
+
+      <div class="code">
+Input: ' OR '1'='1
+
+Resulting query:
+SELECT * FROM users WHERE username = '' OR '1'='1'
+
+Effect:
+Always returns true, allowing unauthorized access
+      </div>
+
+      <h2>How to Prevent It</h2>
+      <ul>
+        <li>Use parameterized queries so input is treated strictly as data</li>
+        <li>Apply least privilege to database users to limit damage if compromised</li>
+        <li>Validate input for expected type and length (not for security alone, but for constraints)</li>
+        <li>Avoid relying on input sanitization as a primary defense</li>
+        <li>Use layered security (defense in depth) so multiple protections exist</li>
+      </ul>
+
+      <h2>Key Takeaways</h2>
+      <ul>
+        <li>Never trust user input, always treat it as untrusted data</li>
+        <li>Parameterized queries are the most reliable defense</li>
+        <li>Security should use multiple layers, not a single solution</li>
+      </ul>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Security Second</p>
+  </footer>
+
+</body>
+</html>

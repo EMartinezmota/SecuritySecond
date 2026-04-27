@@ -1,0 +1,240 @@
+<!-- python3 -m http.server 8000 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Guardrails</title>
+
+  <style>
+    :root {
+      --navy: #071426;
+      --blue: #163b66;
+      --light: #f3f6f9;
+      --white: #ffffff;
+      --muted: #6b7a8c;
+      --border: #dce5ee;
+      --shadow: rgba(7, 20, 38, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--navy);
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px 24px;
+    }
+
+    .nav {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .nav a.back {
+      font-weight: 500;
+      color: #c9d6e4;
+    }
+
+    main {
+      width: min(900px, 92%);
+      margin: 40px auto;
+    }
+
+    .writeup-header {
+      margin-bottom: 24px;
+    }
+
+    .writeup-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 12px;
+        margin: 20px 0 24px;
+        border: 1px solid var(--border);
+        padding: 0;
+        background: none;
+    }
+
+    .hero-img.logo-banner {
+      object-fit: contain;
+      background: var(--white);
+      padding: 16px;
+    }
+
+    .content {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+
+    .content h2 {
+      margin-top: 28px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .content p {
+      margin-bottom: 14px;
+      color: #1d2a38;
+    }
+
+    .content ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    .content li {
+      margin-bottom: 6px;
+    }
+
+    .code {
+      background: #0b1f3a;
+      color: #e6edf5;
+      padding: 14px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+      <a href="../index.html">Security Second</a>
+      <a href="../index.html" class="back">← Back</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="writeup-header">
+      <h1>AI Guardrails</h1>
+      <div class="meta">
+        Beginner | AI Security
+      </div>
+    </div>
+
+    <img src="../resources/aiSec.png" alt="Write-up banner" class="hero-img" />
+
+    <div class="content">
+
+      <h2>Overview</h2>
+      <p>
+        AI guardrails are rules and controls placed around an AI system to guide how it behaves. They limit what the system can respond to and prevent unsafe, irrelevant, or harmful outputs. Instead of letting an AI answer anything, guardrails keep it focused, safe, and aligned with its intended purpose. :contentReference[oaicite:0]{index=0}
+      </p>
+
+      <h2>Why It Matters</h2>
+      <ul>
+        <li>Prevents misuse such as generating harmful, illegal, or unsafe content</li>
+        <li>Protects system behavior from manipulation like prompt injection or abuse</li>
+        <li>Reduces wasted resources from off-topic or unnecessary usage</li>
+      </ul>
+
+      <h2>How It Works</h2>
+      <p>
+        Guardrails act as filters around an AI system:
+      </p>
+      <ul>
+        <li>Input is checked before the AI processes it</li>
+        <li>Rules determine if the request is allowed or should be rejected</li>
+        <li>The AI generates a response only if it passes validation</li>
+        <li>Output is reviewed to ensure it follows safety and relevance rules</li>
+      </ul>
+      <p>
+        If a request violates any rule, the system refuses to answer instead of trying to partially respond.
+      </p>
+
+      <div class="code">
+User Input → Validation Rules → AI Processing → Output Filter → Final Response
+      </div>
+
+      <h2>Basic Example</h2>
+      <p>
+        Imagine a school chatbot designed only to answer campus-related questions. A user tries to ask something unrelated or unsafe:
+      </p>
+
+      <div class="code">
+User: "How do I hack a system?"
+
+Guardrail Result:
+Request is blocked → chatbot refuses to answer
+      </div>
+
+      <p>
+        Even non-malicious misuse can be blocked:
+      </p>
+
+      <div class="code">
+User: "Write my homework for me"
+
+Guardrail Result:
+Request is rejected for being outside intended use
+      </div>
+
+      <h2>How to Prevent It</h2>
+      <ul>
+        <li>Define strict rules for what the AI is allowed to respond to</li>
+        <li>Validate all user input before processing</li>
+        <li>Block unsafe, irrelevant, or mixed-intent requests entirely</li>
+      </ul>
+
+      <h2>Key Takeaways</h2>
+      <ul>
+        <li>Guardrails turn AI from general-purpose into controlled systems</li>
+        <li>They protect against abuse, misuse, and unsafe outputs</li>
+        <li>Strong input validation and clear rules are critical for security</li>
+      </ul>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Security Second</p>
+  </footer>
+
+</body>
+</html>

@@ -9,13 +9,13 @@
 
   <style>
     :root {
-      --navy: #0b1f3a;
-      --dark-navy: #071426;
-      --light-grey: #f3f6f9;
-      --card-grey: #eef3f7;
+      --navy: #071426;
+      --blue: #163b66;
+      --light: #f3f6f9;
       --white: #ffffff;
-      --muted: #5d6b7a;
-      --shadow: rgba(7, 20, 38, 0.16);
+      --muted: #6b7a8c;
+      --border: #dce5ee;
+      --shadow: rgba(7, 20, 38, 0.18);
     }
 
     * {
@@ -26,34 +26,155 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--light-grey);
+      background: var(--light);
       color: var(--navy);
       line-height: 1.6;
     }
 
     header {
-      background: var(--dark-navy);
+      min-height: 520px;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(7, 20, 38, 0.95) 0%,
+          rgba(7, 20, 38, 0.82) 45%,
+          rgba(7, 20, 38, 0.35) 100%
+        ),
+        url("resources/banner.png") center/cover no-repeat;
       color: var(--white);
-      padding: 64px 24px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      padding: 32px 24px;
     }
 
-    header h1 {
-      font-size: clamp(2.4rem, 6vw, 4.5rem);
-      letter-spacing: 1px;
+    .hero {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      padding: 8px;
+    }
+
+    .brand span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-content {
+      max-width: 720px;
+    }
+
+    .eyebrow {
+      color: #9fc5ef;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       margin-bottom: 12px;
     }
 
-    header p {
-      max-width: 720px;
-      margin: 0 auto;
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -2px;
+      margin-bottom: 22px;
+    }
+
+    .hero-content p {
       color: #dce6f0;
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      max-width: 660px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 13px 22px;
+      transition: 0.2s ease;
+    }
+
+    .button.primary {
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .button.secondary {
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
     }
 
     main {
       width: min(1100px, 92%);
-      margin: 48px auto;
+      margin: 56px auto;
+    }
+
+    .mission-container {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 24px;
+      margin-top: -96px;
+      margin-bottom: 56px;
+      position: relative;
+    }
+
+    .mission,
+    .wip-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 14px 34px var(--shadow);
+      padding: 32px;
+    }
+
+    .mission h2,
+    .wip-box h2 {
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      margin-bottom: 12px;
+    }
+
+    .mission p,
+    .wip-box p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .wip-box ul {
+      margin-top: 16px;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .wip-box li {
+      margin-bottom: 8px;
     }
 
     .section-title {
@@ -72,8 +193,8 @@
 
     .writeups-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 26px;
     }
 
     .writeup-card {
@@ -81,62 +202,143 @@
       text-decoration: none;
       color: var(--navy);
       background: var(--white);
-      border: 1px solid #dce5ee;
-      border-radius: 18px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
       overflow: hidden;
-      box-shadow: 0 10px 24px var(--shadow);
+      box-shadow: 0 10px 24px rgba(7, 20, 38, 0.12);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
-    .writeup-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 32px rgba(7, 20, 38, 0.22);
-      border-color: var(--navy);
+    a.writeup-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 18px 38px rgba(7, 20, 38, 0.2);
+      border-color: var(--blue);
     }
 
     .writeup-card img {
       width: 100%;
-      height: 165px;
+      height: 180px;
       object-fit: cover;
-      background: var(--card-grey);
+      background: #d9e4ee;
       display: block;
     }
 
     .writeup-content {
-      padding: 20px;
+      padding: 22px;
     }
 
     .writeup-content h3 {
       font-size: 1.25rem;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .writeup-content span {
-      color: var(--muted);
+      color: var(--blue);
+      font-weight: 700;
       font-size: 0.95rem;
     }
 
+    .wip-section {
+      margin-top: 56px;
+    }
+
+    .wip-section .writeup-card {
+      cursor: default;
+    }
+
     footer {
+      background: var(--navy);
+      color: #b9c7d6;
       text-align: center;
-      color: var(--muted);
-      padding: 32px 16px;
+      padding: 34px 16px;
       font-size: 0.9rem;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        min-height: 620px;
+        background:
+          linear-gradient(
+            rgba(7, 20, 38, 0.9),
+            rgba(7, 20, 38, 0.78)
+          ),
+          url("resources/banner.png") center/cover no-repeat;
+      }
+
+      .brand {
+        margin-bottom: 38px;
+      }
+
+      .mission-container {
+        grid-template-columns: 1fr;
+        margin-top: -72px;
+      }
+
+      .mission,
+      .wip-box {
+        padding: 24px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <h1>Security Second</h1>
-    <p>A collection of cybersecurity write-ups, labs, notes, and technical walkthroughs.</p>
+    <div class="hero">
+      <div class="brand">
+        <img src="resources/logo.png" alt="Security Second logo" />
+        <span>Security Second</span>
+      </div>
+
+      <div class="hero-content">
+        <div class="eyebrow">Cybersecurity for builders</div>
+        <h1>Security Second</h1>
+        <p>
+          Beginner-friendly cybersecurity write-ups that help students start thinking about security risks as they build and deploy projects.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#writeups" class="button primary">View Write-Ups</a>
+          <a href="#mission" class="button secondary">Mission Statement</a>
+          <a href="#wip" class="button secondary">Works in Progress</a>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main>
+    <section class="mission-container">
+      <div id="mission" class="mission">
+        <h2>Mission Statement</h2>
+        <p>
+          Security Second introduces students to foundational security concepts through beginner-friendly write-ups. The goal is to bridge the gap early and help developers start thinking about common security risks as they build and deploy projects.
+        </p>
+      </div>
+
+      <div class="wip-box">
+        <h2>Works in Progress</h2>
+        <p>
+          Upcoming intro-level security write-ups and labs currently being developed.
+        </p>
+        <ul id="wip-list"></ul>
+      </div>
+    </section>
+
     <section class="section-title">
       <h2>Cybersecurity Write-Ups</h2>
       <p>Select a write-up below to open the full page.</p>
     </section>
 
     <section id="writeups" class="writeups-grid"></section>
+
+    <section id="wip" class="wip-section">
+      <div class="section-title">
+        <h2>Works in Progress</h2>
+        <p>Preview of upcoming beginner-focused content.</p>
+      </div>
+
+      <section id="wip-cards" class="writeups-grid"></section>
+    </section>
   </main>
 
   <footer>
@@ -144,23 +346,36 @@
   </footer>
 
   <script>
-    // Add your write-up pages here.
-    // Each item needs a title, image, and href link.
     const writeups = [
       {
-        title: "SQL Injection Basics",
-        image: "images/sql-injection.jpg",
-        href: "writeups/sql-injection.html"
+        title: "Character Limits",
+        image: "resources/charLimit.png",
+        href: "writeups/char-limit.html"
       },
       {
-        title: "Network Monitoring with Snort",
-        image: "images/snort-monitoring.jpg",
-        href: "writeups/snort-monitoring.html"
+        title: "SQL Injection",
+        image: "resources/sqlInjection.png",
+        href: "writeups/sql-injections.html"
       },
       {
-        title: "DNSSEC Walkthrough",
-        image: "images/dnssec.jpg",
-        href: "writeups/dnssec.html"
+        title: "AI Sec",
+        image: "resources/aiSec.png",
+        href: "writeups/ai-sec.html"
+      }
+    ];
+
+    const wipItems = [
+      {
+        title: "XSS Basics",
+        image: "images/xss.jpg"
+      },
+      {
+        title: "Password Storage Fundamentals",
+        image: "images/passwords.jpg"
+      },
+      {
+        title: "Secure Deployment Checklist",
+        image: "images/deployment.jpg"
       }
     ];
 
@@ -175,11 +390,33 @@
         <img src="${writeup.image}" alt="${writeup.title}">
         <div class="writeup-content">
           <h3>${writeup.title}</h3>
-          <span>Open write-up</span>
+          <span>Open write-up →</span>
         </div>
       `;
 
       writeupsContainer.appendChild(card);
+    });
+
+    const wipList = document.getElementById("wip-list");
+    const wipCardsContainer = document.getElementById("wip-cards");
+
+    wipItems.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item.title;
+      wipList.appendChild(li);
+
+      const card = document.createElement("div");
+      card.className = "writeup-card";
+
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.title}">
+        <div class="writeup-content">
+          <h3>${item.title}</h3>
+          <span>Coming soon</span>
+        </div>
+      `;
+
+      wipCardsContainer.appendChild(card);
     });
   </script>
 </body>

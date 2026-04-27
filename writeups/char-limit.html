@@ -1,0 +1,275 @@
+<!-- python3 -m http.server 8000 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Character Limits for User Inputs</title>
+
+  <style>
+    :root {
+      --navy: #071426;
+      --blue: #163b66;
+      --light: #f3f6f9;
+      --white: #ffffff;
+      --muted: #6b7a8c;
+      --border: #dce5ee;
+      --shadow: rgba(7, 20, 38, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--navy);
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px 24px;
+    }
+
+    .nav {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .nav a.back {
+      font-weight: 500;
+      color: #c9d6e4;
+    }
+
+    main {
+      width: min(900px, 92%);
+      margin: 40px auto;
+    }
+
+    .writeup-header {
+      margin-bottom: 24px;
+    }
+
+    .writeup-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-img {
+        width: 100%;
+        height: 220px;              /* taller banner */
+        object-fit: cover;          /* fills like a banner instead of containing */
+        object-position: center;    /* keeps center focus */
+        border-radius: 12px;
+        margin: 20px 0 24px;
+        border: 1px solid var(--border);
+        padding: 0;                 /* remove padding so it stretches edge-to-edge */
+        background: none;           /* remove white box feel */
+    }
+
+    .content {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+
+    .content h2 {
+      margin-top: 28px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .content p {
+      margin-bottom: 14px;
+      color: #1d2a38;
+    }
+
+    .content ul,
+    .content ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+
+    .content li {
+      margin-bottom: 6px;
+    }
+
+    .code {
+      background: #0b1f3a;
+      color: #e6edf5;
+      padding: 14px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 14px 0;
+      white-space: pre;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+      <a href="../index.html">Security Second</a>
+      <a href="../index.html" class="back">← Back</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="writeup-header">
+      <h1>Character Limits for User Inputs</h1>
+      <div class="meta">
+        Beginner level · Input validation · Resource protection
+      </div>
+    </div>
+
+    <img src="../resources/charLimit.png" alt="Security Second banner" class="hero-img" />
+
+    <div class="content">
+
+      <h2>Overview</h2>
+      <p>
+        This write-up explains why applications should limit user input to a set number of characters. Character limits help reduce abuse, lower unnecessary costs, and protect backend systems before a request reaches sensitive or expensive parts of an application.
+      </p>
+
+      <h2>Example Scope</h2>
+      <p>
+        For example purposes, this write-up uses a chatbot-style text input. However, the same idea applies broadly to other user-controlled inputs such as search bars, forms, comment sections, usernames, and API request fields.
+      </p>
+
+      <h2>Why It Matters</h2>
+      <ul>
+        <li>Prevents unnecessary costs and sudden spikes on paid services.</li>
+        <li>Protects against input flooding and extremely large submissions.</li>
+        <li>Reduces abuse of backend resources.</li>
+        <li>Protects downstream systems that process user input.</li>
+      </ul>
+
+      <h2>Layered Validation Concept</h2>
+      <p>
+        Input limits should be enforced in multiple layers. Frontend limits guide normal users, while backend validation provides real enforcement.
+      </p>
+
+      <div class="code">Layer 1: UI input limit
+    Helps guide normal user behavior
+        ↓
+Layer 2: UI interaction control
+    Prevents accidental over-submission
+        ↓
+Layer 3: Server-side validation
+    Enforces actual limits
+        ↓
+Layer 4: Structured request validation
+    Ensures clean and expected data
+        ↓
+Layer 5: Process request only after validation
+    Protects cost and system resources</div>
+
+      <h2>Frontend Limits</h2>
+      <p>
+        The first layer exists in the user interface. This includes limiting how many characters a user can type and preventing submission when limits are exceeded.
+      </p>
+
+      <ul>
+        <li>Restrict the visible input length.</li>
+        <li>Disable submission when limits are reached.</li>
+        <li>Provide feedback to users about the limit.</li>
+      </ul>
+
+      <p>
+        These controls improve usability, but they are not secure. A user can modify or bypass frontend restrictions.
+      </p>
+
+      <h2>Backend Enforcement</h2>
+      <p>
+        Real enforcement must happen on the server. The backend should check input length and reject anything that exceeds the defined limit.
+      </p>
+
+      <ul>
+        <li>Reject oversized input before processing.</li>
+        <li>Do not rely on frontend checks.</li>
+        <li>Ensure all entry points enforce the same limits.</li>
+      </ul>
+
+      <h2>Structured Input Validation</h2>
+      <p>
+        Applications should define expected input formats and constraints. This ensures that incoming data follows strict rules before it is processed further.
+      </p>
+
+      <ul>
+        <li>Define maximum input lengths.</li>
+        <li>Ensure inputs match expected formats.</li>
+        <li>Reject malformed or unexpected data early.</li>
+      </ul>
+
+      <h2>Related Security Improvements</h2>
+      <ul>
+        <li>Only process requests after validation completes successfully.</li>
+        <li>Limit how frequently users can submit input.</li>
+        <li>Restrict output size to prevent excessive responses.</li>
+        <li>Ensure consistent validation across all endpoints.</li>
+      </ul>
+
+      <h2>Related User Experience Improvements</h2>
+      <ul>
+        <li>Display current character count and maximum limit.</li>
+        <li>Add minimum length requirements to reduce spam.</li>
+        <li>Provide clear error messages when limits are exceeded.</li>
+        <li>Make limits visible so users understand constraints.</li>
+      </ul>
+
+      <h2>Key Takeaways</h2>
+      <ul>
+        <li>Frontend limits guide users but do not provide security.</li>
+        <li>Backend validation is required for real enforcement.</li>
+        <li>Input constraints should be clearly defined and consistently applied.</li>
+        <li>Validation should occur before any expensive or sensitive processing.</li>
+      </ul>
+
+      <h2>Follow-Up Questions</h2>
+      <ul>
+        <li>What should the full validation pipeline look like?</li>
+        <li>Where should limits be enforced across the system?</li>
+        <li>How should rate limits and output limits be integrated?</li>
+      </ul>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Security Second</p>
+  </footer>
+
+</body>
+</html>
